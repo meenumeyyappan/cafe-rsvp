@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Petit Café · RSVP</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --cream: #FAF7F2;
+            --white: #FFFFFF;
+            --terracotta: #C9856A;
+            --terracotta-light: #EAC4B0;
+            --sage: #7A9E7E;
+            --sage-light: #C9DECA;
+            --gold: #BFA06A;
+            --espresso: #3D2B1F;
+            --muted: #8B7355;
+            --border: #E8DDD0;
+            --pink: #D4A5A5;
+            --pink-light: #F5E2E2;
+            --blush: #F0E6E6;
+        }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--cream);
+            color: var(--espresso);
+            min-height: 100vh;
+        }
+
+        /* ── HERO ── */
+        .hero {
+            text-align: center;
+            padding: 56px 24px 44px;
+            background: linear-gradient(180deg, #F2EAE0 0%, var(--cream) 100%);
+        }
+
+        .hero-flowers {
+            color: var(--terracotta-light);
+            font-size: 15px;
+            letter-spacing: 18px;
+            margin-bottom: 22px;
+            display: block;
+        }
+
+        .hero-tag {
+            font-size: 10px;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 14px;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(34px, 7vw, 56px);
+            color: var(--espresso);
+            line-height: 1.15;
+            margin-bottom: 6px;
+        }
+
+        .hero h1 em {
+            font-style: italic;
+            color: var(--terracotta);
+        }
+
+        .gold-rule {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 14px;
+            margin: 20px 0;
+        }
+
+        .gold-rule::before, .gold-rule::after {
+            content: '';
+            width: 56px;
+            height: 1px;
+            background: var(--gold);
+            opacity: 0.7;
+        }
+
+        .gold-rule span { color: var(--gold); font-size: 14px; }
+
+        .hero-description {
+            max-width: 420px;
+            margin: 0 auto 28px;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 15px;
+            color: var(--muted);
+            line-height: 1.75;
+        }
+
+        .event-pills {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 32px;
+        }
+
+        .event-pill {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 40px;
+            padding: 7px 18px;
+            font-size: 12px;
+            color: var(--muted);
+            letter-spacing: 0.5px;
+        }
+
+        .event-pill strong {
+            color: var(--espresso);
+            font-weight: 700;
+        }
+
+        .btn-primary {
+            background: var(--terracotta);
+            color: white;
+            border: none;
+            padding: 14px 44px;
+            font-family: 'Lato', sans-serif;
+            font-size: 11px;
+            letter-spacing: 3.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .btn-primary:hover {
+            background: var(--espresso);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 16px rgba(61,43,31,0.15);
+        }
+
+        /* ── FORM WRAPPER ── */
+        .form-container {
+            max-width: 520px;
+            margin: 0 auto;
+            padding: 16px 20px 40px;
+        }
+
+        .progress-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 20px 0 12px;
+        }
+
+        .progress-dot {
+            width: 7px; height: 7px;
+            border-radius: 50%;
+            background: var(--border);
+            transition: all 0.35s ease;
+        }
+
+        .progress-dot.active {
+            background: var(--terracotta);
+            width: 22px;
+            border-radius: 4px;
+        }
+
+        .progress-dot.done { background: var(--sage); }
+
+        /* ── STEPS ── */
+        .step { display: none; animation: fadeUp 0.38s ease; }
+        .step.active { display: block; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(12px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 4px;
+            padding: 36px 36px 32px;
+            box-shadow: 0 2px 24px rgba(61,43,31,0.07);
+            border: 1px solid var(--border);
+            margin-bottom: 14px;
+        }
+
+        .step-eyebrow {
+            font-size: 10px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 7px;
+        }
+
+        .step-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            color: var(--espresso);
+            margin-bottom: 6px;
+        }
+
+        .step-sub {
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.55;
+            margin-bottom: 28px;
+        }
+
+        /* ── INPUTS ── */
+        .form-group { margin-bottom: 22px; }
+
+        .field-label {
+            display: block;
+            font-size: 10px;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 9px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1.5px solid var(--border);
+            border-radius: 2px;
+            font-family: 'Lato', sans-serif;
+            font-size: 15px;
+            color: var(--espresso);
+            background: var(--cream);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input[type="text"]:focus { border-color: var(--terracotta); }
+
+        /* ── ATTENDANCE BUTTONS ── */
+        .attend-grid {
+            display: flex;
+            gap: 10px;
+        }
+
+        .attend-btn {
+            flex: 1;
+            padding: 13px 6px;
+            border: 1.5px solid var(--border);
+            background: white;
+            border-radius: 2px;
+            font-family: 'Lato', sans-serif;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .attend-btn:hover { border-color: var(--terracotta-light); color: var(--terracotta); }
+        .attend-btn.sel-yes  { background: var(--sage-light);  border-color: var(--sage);       color: var(--espresso); }
+        .attend-btn.sel-maybe{ background: #FFF6E8;           border-color: var(--gold);        color: var(--espresso); }
+        .attend-btn.sel-no   { background: var(--pink-light); border-color: var(--pink);        color: var(--espresso); }
+
+        /* ── MENU ITEMS ── */
+        .menu-item {
+            display: flex;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .menu-item:last-child { border-bottom: none; }
+
+        .menu-info { flex: 1; }
+
+        .menu-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            color: var(--espresso);
+        }
+
+        .menu-desc {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .menu-price {
+            font-size: 13px;
+            color: var(--gold);
+            font-weight: 700;
+            margin: 0 18px 0 12px;
+        }
+
+        .qty-ctrl {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .qty-btn {
+            width: 28px; height: 28px;
+            border: 1.5px solid var(--border);
+            background: white;
+            border-radius: 50%;
+            font-size: 18px;
+            color: var(--muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            line-height: 1;
+            font-family: 'Lato', sans-serif;
+        }
+
+        .qty-btn:hover { border-color: var(--terracotta); color: var(--terracotta); }
+
+        .qty-num {
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--espresso);
+            min-width: 18px;
+            text-align: center;
+        }
+
+        /* ── ORDER SUMMARY ── */
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 14px;
+            padding: 7px 0;
+            color: var(--espresso);
+        }
+
+        .summary-row .label { color: var(--muted); }
+
+        .summary-total {
+            display: flex;
+            justify-content: space-between;
+            font-family: 'Playfair Display', serif;
+            font-size: 21px;
+            padding: 16px 0 0;
+            margin-top: 8px;
+            border-top: 1.5px solid var(--border);
+        }
+
+        /* ── PAYMENT BOX ── */
+        .payment-box {
+            background: var(--cream);
+            border: 1px solid var(--border);
+            border-radius: 3px;
+            padding: 20px;
+            text-align: center;
+            margin: 22px 0 4px;
+        }
+
+        .pay-label {
+            font-size: 10px;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 6px;
+        }
+
+        .pay-handle {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            color: var(--terracotta);
+            margin-bottom: 4px;
+        }
+
+        .pay-amount {
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        .pay-status-grid {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .pay-status-btn {
+            flex: 1;
+            padding: 12px 8px;
+            border: 1.5px solid var(--border);
+            background: white;
+            border-radius: 2px;
+            font-family: 'Lato', sans-serif;
+            font-size: 11px;
+            letter-spacing: 1px;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+
+        .pay-status-btn:hover { border-color: var(--terracotta-light); color: var(--terracotta); }
+        .pay-status-btn.selected { background: var(--sage-light); border-color: var(--sage); color: var(--espresso); }
+
+        /* ── NAV BUTTONS ── */
+        .nav-btns { display: flex; gap: 10px; margin-top: 4px; }
+
+        .btn-back {
+            padding: 12px 22px;
+            border: 1.5px solid var(--border);
+            background: white;
+            border-radius: 2px;
+            font-family: 'Lato', sans-serif;
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--muted);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-back:hover { border-color: var(--muted); color: var(--espresso); }
+
+        .btn-next {
+            flex: 1;
+            padding: 14px;
+            background: var(--terracotta);
+            color: white;
+            border: none;
+            border-radius: 2px;
+            font-family: 'Lato', sans-serif;
+            font-size: 11px;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-next:hover { background: var(--espresso); }
+
+        /* ── CONFIRMATION ── */
+        .confirm-header {
+            text-align: center;
+            padding: 42px 36px 24px;
+        }
+
+        .confirm-icon { font-size: 42px; margin-bottom: 14px; }
+
+        .confirm-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            color: var(--espresso);
+            margin-bottom: 8px;
+        }
+
+        .confirm-sub {
+            font-size: 14px;
+            color: var(--muted);
+            line-height: 1.65;
+        }
+
+        .floral-row {
+            text-align: center;
+            color: var(--terracotta-light);
+            font-size: 14px;
+            letter-spacing: 14px;
+            margin: 18px 0;
+        }
+
+        .attendee-list { margin-top: 6px; }
+
+        .attendee-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .attendee-row:last-child { border-bottom: none; }
+
+        .attendee-avatar {
+            width: 33px; height: 33px;
+            border-radius: 50%;
+            background: var(--blush);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 14px;
+            color: var(--terracotta);
+            flex-shrink: 0;
+            border: 1px solid var(--terracotta-light);
+        }
+
+        .attendee-name { font-size: 15px; color: var(--espresso); }
+
+        .attendee-badge {
+            margin-left: auto;
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--sage);
+        }
+
+        .attendee-badge.maybe { color: var(--gold); }
+
+        /* ── INVITE SECTION ── */
+        .invite-section {
+            background: linear-gradient(135deg, #FDF5EE, var(--cream));
+            border-top: 1px solid var(--border);
+            padding: 28px 36px 32px;
+            text-align: center;
+        }
+
+        .invite-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 19px;
+            color: var(--espresso);
+            margin-bottom: 6px;
+        }
+
+        .invite-sub {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 18px;
+        }
+
+        .invite-link-row {
+            display: flex;
+            gap: 8px;
+            max-width: 380px;
+            margin: 0 auto 10px;
+        }
+
+        .invite-link-input {
+            flex: 1;
+            padding: 10px 14px;
+            border: 1px solid var(--border);
+            border-radius: 2px;
+            font-size: 12px;
+            color: var(--muted);
+            background: white;
+            outline: none;
+        }
+
+        .btn-copy {
+            background: var(--espresso);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            border-radius: 2px;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .btn-copy:hover { background: var(--terracotta); }
+
+        .copy-msg {
+            font-size: 12px;
+            color: var(--sage);
+            display: none;
+            margin-top: 4px;
+        }
+
+        /* ── NOT COMING ── */
+        .miss-you {
+            text-align: center;
+            padding: 12px 0 4px;
+        }
+
+        .miss-you p {
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 14px;
+            color: var(--muted);
+            line-height: 1.7;
+            margin-top: 10px;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            text-align: center;
+            padding: 32px 20px;
+            color: var(--muted);
+            font-size: 11px;
+            letter-spacing: 0.5px;
+            line-height: 1.9;
+        }
+
+        footer span { color: var(--terracotta); }
+
+        /* ── NO ITEMS NOTE ── */
+        .empty-note {
+            text-align: center;
+            padding: 18px 0 8px;
+            font-family: 'Playfair Display', serif;
+            font-style: italic;
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        @media (max-width: 480px) {
+            .card { padding: 24px 18px 22px; }
+            .hero { padding: 40px 16px 36px; }
+            .attend-grid { flex-direction: column; }
+            .invite-section { padding: 24px 20px 28px; }
+            .confirm-header { padding: 32px 20px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ════════════════════ HERO ════════════════════ -->
+<div class="hero" id="heroSection">
+    <span class="hero-flowers">✿ ✿ ✿ ✿ ✿</span>
+    <div class="hero-tag">You're Invited</div>
+    <h1>Le Petit Café<br><em>Pop-Up</em></h1>
+    <div class="gold-rule"><span>✦</span></div>
+    <p class="hero-description">
+        A dreamy Friday morning in a French apartment —<br>
+        fresh pastries, good coffee & even better company.
+    </p>
+    <div class="event-pills">
+        <div class="event-pill">📅 <strong>Friday, March 27</strong></div>
+        <div class="event-pill">🕤 <strong>9:30 – 11:30 am</strong></div>
+        <div class="event-pill">🥐 <strong>French Apartment Vibes</strong></div>
+    </div>
+    <button class="btn-primary" onclick="startRSVP()">RSVP Now</button>
+</div>
+
+<!-- ════════════════════ FORM ════════════════════ -->
+<div class="form-container" id="formContainer" style="display:none;">
+
+    <div class="progress-bar" id="progressBar">
+        <div class="progress-dot active" id="dot-1"></div>
+        <div class="progress-dot" id="dot-2"></div>
+        <div class="progress-dot" id="dot-3"></div>
+        <div class="progress-dot" id="dot-4"></div>
+    </div>
+
+    <!-- ── STEP 1 : Name + Attendance ── -->
+    <div class="step active" id="step1">
+        <div class="card">
+            <div class="step-eyebrow">Step 1 of 4</div>
+            <h2 class="step-title">Who's joining us?</h2>
+            <p class="step-sub">Let us know if you'll be there — every croissant counts.</p>
+
+            <div class="form-group">
+                <label class="field-label" for="nameInput">Your Name</label>
+                <input type="text" id="nameInput" placeholder="e.g. Sophie Laurent" />
+            </div>
+
+            <div class="form-group" style="margin-bottom:0;">
+                <label class="field-label">Will you be there?</label>
+                <div class="attend-grid">
+                    <button class="attend-btn" onclick="selectAttend('yes', this)">✓ &nbsp;Yes</button>
+                    <button class="attend-btn" onclick="selectAttend('maybe', this)">~ &nbsp;Maybe</button>
+                    <button class="attend-btn" onclick="selectAttend('no', this)">✗ &nbsp;No</button>
+                </div>
+            </div>
+        </div>
+        <div class="nav-btns">
+            <button class="btn-next" onclick="nextStep(1)">Continue →</button>
+        </div>
+    </div>
+
+    <!-- ── STEP 2 : Drinks ── -->
+    <div class="step" id="step2">
+        <div class="card">
+            <div class="step-eyebrow">Step 2 of 4</div>
+            <h2 class="step-title">What will you drink?</h2>
+            <p class="step-sub">Each drink is $2. Pick your poison — or both, we won't judge.</p>
+
+            <div class="menu-item">
+                <div class="menu-info">
+                    <div class="menu-name">☕ Coffee</div>
+                    <div class="menu-desc">Rich, smooth drip coffee</div>
+                </div>
+                <span class="menu-price">$2 ea</span>
+                <div class="qty-ctrl">
+                    <button class="qty-btn" onclick="changeQty('coffee',-1)">−</button>
+                    <span class="qty-num" id="coffeeQty">0</span>
+                    <button class="qty-btn" onclick="changeQty('coffee',1)">+</button>
+                </div>
+            </div>
+
+            <div class="menu-item">
+                <div class="menu-info">
+                    <div class="menu-name">🍵 Matcha</div>
+                    <div class="menu-desc">Ceremonial grade, lightly sweetened</div>
+                </div>
+                <span class="menu-price">$2 ea</span>
+                <div class="qty-ctrl">
+                    <button class="qty-btn" onclick="changeQty('matcha',-1)">−</button>
+                    <span class="qty-num" id="matchaQty">0</span>
+                    <button class="qty-btn" onclick="changeQty('matcha',1)">+</button>
+                </div>
+            </div>
+        </div>
+        <div class="nav-btns">
+            <button class="btn-back" onclick="goBack(2)">← Back</button>
+            <button class="btn-next" onclick="nextStep(2)">Continue →</button>
+        </div>
+    </div>
+
+    <!-- ── STEP 3 : Pastries ── -->
+    <div class="step" id="step3">
+        <div class="card">
+            <div class="step-eyebrow">Step 3 of 4</div>
+            <h2 class="step-title">And some pastries?</h2>
+            <p class="step-sub">Each pastry is $1. Mix and match to your heart's content.</p>
+            <div id="pastryList"></div>
+        </div>
+        <div class="nav-btns">
+            <button class="btn-back" onclick="goBack(3)">← Back</button>
+            <button class="btn-next" onclick="nextStep(3)">Continue →</button>
+        </div>
+    </div>
+
+    <!-- ── STEP 4 : Summary + Payment ── -->
+    <div class="step" id="step4">
+        <div class="card">
+            <div class="step-eyebrow">Step 4 of 4</div>
+            <h2 class="step-title">Your Order Summary</h2>
+            <p class="step-sub">Almost there — review your order and sort out payment.</p>
+
+            <div id="orderSummary"></div>
+
+            <div class="payment-box">
+                <div class="pay-label">Send via Zelle or Venmo to</div>
+                <div class="pay-handle">@YOUR_USERNAME</div>
+                <div class="pay-amount" id="payAmountLine">Total: $0</div>
+            </div>
+
+            <div style="margin-top:4px;">
+                <label class="field-label" style="margin-top:18px;">Have you sent payment?</label>
+                <div class="pay-status-grid">
+                    <button class="pay-status-btn" onclick="selectPayStatus('paid', this)">✓ &nbsp;Yes, sent!</button>
+                    <button class="pay-status-btn" onclick="selectPayStatus('cash', this)">💵 &nbsp;Will pay in cash</button>
+                </div>
+            </div>
+        </div>
+        <div class="nav-btns">
+            <button class="btn-back" onclick="goBack(4)">← Back</button>
+            <button class="btn-next" onclick="submitRSVP()">RSVP ✿</button>
+        </div>
+    </div>
+
+    <!-- ── NOT COMING ── -->
+    <div class="step" id="stepNo">
+        <div class="card" style="text-align:center; padding: 44px 36px;">
+            <div style="font-size:40px; margin-bottom:14px;">🥐</div>
+            <h2 class="step-title">We'll miss you!</h2>
+            <div class="miss-you">
+                <p>We're sad you can't make it — we'll save a croissant for next time. Hope to see you soon!</p>
+            </div>
+        </div>
+        <div class="nav-btns">
+            <button class="btn-back" onclick="goBack('No')">← Back</button>
+        </div>
+    </div>
+
+    <!-- ── CONFIRMATION ── -->
+    <div class="step" id="stepConfirm">
+        <div class="card" style="padding:0; overflow:hidden;">
+
+            <div class="confirm-header">
+                <div class="confirm-icon">✿</div>
+                <h2 class="confirm-title">À bientôt!</h2>
+                <p class="confirm-sub">You're on the list. See you Friday morning<br>for croissants and good company.</p>
+            </div>
+
+            <div class="floral-row">✿ &nbsp; ✿ &nbsp; ✿</div>
+
+            <div style="padding: 4px 36px 28px;">
+                <div class="step-eyebrow" style="margin-bottom:12px;">Who's Coming</div>
+                <div class="attendee-list" id="attendeeList"></div>
+            </div>
+
+            <div class="invite-section">
+                <div class="invite-title">Invite Your Friends</div>
+                <div class="invite-sub">The more the merrier — share the link below!</div>
+                <div class="invite-link-row">
+                    <input class="invite-link-input" type="text" id="inviteLinkInput" readonly />
+                    <button class="btn-copy" onclick="copyLink()">Copy</button>
+                </div>
+                <div class="copy-msg" id="copyMsg">Copied! ✓</div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    <div class="floral-row" style="font-size:12px; letter-spacing:10px; margin-bottom:10px;">✿ ✿ ✿</div>
+    <div>Le Petit Café Pop-Up &nbsp;·&nbsp; Friday, March 27 &nbsp;·&nbsp; 9:30–11:30 am</div>
+    <div style="margin-top:4px;">Made with <span>♥</span> for a beautiful morning</div>
+</footer>
+
+<script>
+// ═══════════════════════════════════════
+//  CONFIG — update these before sharing!
+// ═══════════════════════════════════════
+const VENMO_HANDLE  = '@YOUR_USERNAME'; // e.g. '@meenu'
+const ZELLE_HANDLE  = 'your@email.com'; // e.g. 'meenu@gmail.com'
+
+// ═══════════════════════════════════════
+//  PASTRY MENU
+// ═══════════════════════════════════════
+const PASTRIES = [
+    { id: 'croissant',  name: 'Croissant',         emoji: '🥐', desc: 'Buttery, flaky, classic' },
+    { id: 'pain_choc',  name: 'Pain au Chocolat',  emoji: '🍫', desc: 'Dark chocolate wrapped in pastry' },
+    { id: 'madeleine',  name: 'Madeleine',          emoji: '🌸', desc: 'Soft shell-shaped sponge cake' },
+    { id: 'macaron',    name: 'Macaron',             emoji: '🍬', desc: 'Delicate almond meringue cookie' },
+    { id: 'fruit_tart', name: 'Mini Fruit Tart',    emoji: '🫐', desc: 'Seasonal fruit on pastry cream' },
+];
+
+// ═══════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════
+const state = {
+    name: '',
+    attendance: '',
+    coffee: 0,
+    matcha: 0,
+    pastries: {},
+    payStatus: ''
+};
+
+PASTRIES.forEach(p => state.pastries[p.id] = 0);
+
+// ═══════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════
+function startRSVP() {
+    document.getElementById('heroSection').style.display = 'none';
+    document.getElementById('formContainer').style.display = 'block';
+    buildPastryList();
+    setStep(1);
+}
+
+function buildPastryList() {
+    document.getElementById('pastryList').innerHTML = PASTRIES.map(p => `
+        <div class="menu-item">
+            <div class="menu-info">
+                <div class="menu-name">${p.emoji} ${p.name}</div>
+                <div class="menu-desc">${p.desc}</div>
+            </div>
+            <span class="menu-price">$1 ea</span>
+            <div class="qty-ctrl">
+                <button class="qty-btn" onclick="changeQty('${p.id}',-1)">−</button>
+                <span class="qty-num" id="${p.id}Qty">0</span>
+                <button class="qty-btn" onclick="changeQty('${p.id}',1)">+</button>
+            </div>
+        </div>
+    `).join('');
+}
+
+// ═══════════════════════════════════════
+//  STEP CONTROL
+// ═══════════════════════════════════════
+function setStep(id) {
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    document.getElementById('step' + id).classList.add('active');
+
+    const pb = document.getElementById('progressBar');
+    const isSpecial = (id === 'No' || id === 'Confirm');
+    pb.style.display = isSpecial ? 'none' : 'flex';
+
+    if (!isSpecial) {
+        [1,2,3,4].forEach(n => {
+            const dot = document.getElementById('dot-' + n);
+            dot.className = 'progress-dot' + (n < id ? ' done' : n === id ? ' active' : '');
+        });
+    }
+}
+
+function nextStep(from) {
+    if (from === 1) {
+        const name = document.getElementById('nameInput').value.trim();
+        if (!name)               { flash('nameInput'); alert('Please enter your name.'); return; }
+        if (!state.attendance)   { alert('Please select whether you\'ll attend.'); return; }
+        state.name = name;
+        if (state.attendance === 'no') { setStep('No'); return; }
+        setStep(2);
+    } else if (from === 2) {
+        setStep(3);
+    } else if (from === 3) {
+        buildSummary();
+        setStep(4);
+    }
+}
+
+function goBack(from) {
+    if (from === 2)    setStep(1);
+    else if (from === 3) setStep(2);
+    else if (from === 4) setStep(3);
+    else if (from === 'No') setStep(1);
+}
+
+function flash(inputId) {
+    const el = document.getElementById(inputId);
+    el.style.borderColor = '#C9856A';
+    setTimeout(() => el.style.borderColor = '', 1200);
+}
+
+// ═══════════════════════════════════════
+//  INTERACTIONS
+// ═══════════════════════════════════════
+function selectAttend(val, btn) {
+    state.attendance = val;
+    document.querySelectorAll('.attend-btn').forEach(b => {
+        b.className = 'attend-btn';
+    });
+    btn.classList.add('sel-' + val);
+}
+
+function changeQty(item, delta) {
+    if (item === 'coffee' || item === 'matcha') {
+        state[item] = Math.max(0, state[item] + delta);
+        document.getElementById(item + 'Qty').textContent = state[item];
+    } else {
+        state.pastries[item] = Math.max(0, (state.pastries[item] || 0) + delta);
+        document.getElementById(item + 'Qty').textContent = state.pastries[item];
+    }
+}
+
+function selectPayStatus(val, btn) {
+    state.payStatus = val;
+    document.querySelectorAll('.pay-status-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+}
+
+// ═══════════════════════════════════════
+//  SUMMARY
+// ═══════════════════════════════════════
+function calcTotal() {
+    let t = 0;
+    t += state.coffee * 2;
+    t += state.matcha * 2;
+    PASTRIES.forEach(p => { t += state.pastries[p.id]; });
+    return t;
+}
+
+function buildSummary() {
+    const total = calcTotal();
+    let rows = '';
+
+    if (state.coffee > 0)
+        rows += row('☕ Coffee', state.coffee, state.coffee * 2);
+    if (state.matcha > 0)
+        rows += row('🍵 Matcha', state.matcha, state.matcha * 2);
+    PASTRIES.forEach(p => {
+        const q = state.pastries[p.id];
+        if (q > 0) rows += row(p.emoji + ' ' + p.name, q, q);
+    });
+
+    const html = rows
+        ? `${rows}<div class="summary-total"><span>Total</span><span>$${total}</span></div>`
+        : `<div class="empty-note">No drinks or pastries selected — just vibes ✿</div>`;
+
+    document.getElementById('orderSummary').innerHTML = html;
+    document.getElementById('payAmountLine').textContent =
+        total > 0 ? `Send $${total} to ${VENMO_HANDLE} (Venmo) or ${ZELLE_HANDLE} (Zelle)` : 'No payment needed!';
+}
+
+function row(label, qty, cost) {
+    return `<div class="summary-row">
+        <span class="label">${label} × ${qty}</span>
+        <span>$${cost}</span>
+    </div>`;
+}
+
+// ═══════════════════════════════════════
+//  SUBMIT
+// ═══════════════════════════════════════
+function submitRSVP() {
+    if (!state.payStatus) { alert('Please indicate your payment status.'); return; }
+    saveRSVP();
+    buildConfirmation();
+    setStep('Confirm');
+}
+
+// ═══════════════════════════════════════
+//  LOCAL STORAGE
+// ═══════════════════════════════════════
+function saveRSVP() {
+    const all = loadRSVPs().filter(r => r.name.toLowerCase() !== state.name.toLowerCase());
+    all.push({ name: state.name, attendance: state.attendance, ts: Date.now() });
+    localStorage.setItem('lepetitcafe_rsvps', JSON.stringify(all));
+}
+
+function loadRSVPs() {
+    try { return JSON.parse(localStorage.getItem('lepetitcafe_rsvps')) || []; }
+    catch { return []; }
+}
+
+// ═══════════════════════════════════════
+//  CONFIRMATION
+// ═══════════════════════════════════════
+function buildConfirmation() {
+    const coming = loadRSVPs().filter(r => r.attendance === 'yes' || r.attendance === 'maybe');
+    const list   = document.getElementById('attendeeList');
+
+    list.innerHTML = coming.length === 0
+        ? `<div style="text-align:center;padding:16px 0;font-family:'Playfair Display',serif;font-style:italic;font-size:13px;color:var(--muted);">Be the first to RSVP — spread the word! ✿</div>`
+        : coming.map(r => `
+            <div class="attendee-row">
+                <div class="attendee-avatar">${esc(r.name).charAt(0).toUpperCase()}</div>
+                <span class="attendee-name">${esc(r.name)}</span>
+                <span class="attendee-badge ${r.attendance === 'maybe' ? 'maybe' : ''}">${r.attendance === 'maybe' ? 'Maybe' : 'Coming'}</span>
+            </div>
+        `).join('');
+
+    document.getElementById('inviteLinkInput').value = window.location.href.split('#')[0];
+}
+
+function copyLink() {
+    const val = document.getElementById('inviteLinkInput').value;
+    const msg = document.getElementById('copyMsg');
+
+    navigator.clipboard.writeText(val).then(show).catch(() => {
+        const el = document.getElementById('inviteLinkInput');
+        el.select(); document.execCommand('copy'); show();
+    });
+
+    function show() {
+        msg.style.display = 'block';
+        setTimeout(() => msg.style.display = 'none', 2500);
+    }
+}
+
+function esc(s) {
+    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+</script>
+</body>
+</html>
