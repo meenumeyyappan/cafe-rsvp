@@ -703,8 +703,9 @@
 </footer>
 
 <script>
-const VENMO_HANDLE = '@YOUR_USERNAME';
-const ZELLE_HANDLE = 'your@email.com';
+const VENMO_HANDLE  = '@YOUR_USERNAME';
+const ZELLE_HANDLE  = 'your@email.com';
+const SCRIPT_URL    = 'https://script.google.com/macros/s/AKfycbxAwuVrigLRYNIx9e77txfM6-Dhv6vgJtkkq5afrudz9jf46UcIaE1c8a0C7Q-Bb_vVQg/exec';
 
 const PASTRIES = [
     { id: 'croissant',  name: 'Croissant',        desc: 'Buttery, flaky, classic' },
@@ -833,7 +834,26 @@ function summaryRow(label, qty, cost) {
 
 function submitRSVP() {
     if (!state.payStatus) return;
-    saveRSVP();
+
+    const payload = {
+        name:       state.name,
+        attendance: state.attendance,
+        coffee:     state.coffee,
+        matcha:     state.matcha,
+        pastries:   state.pastries,
+        total:      calcTotal(),
+        payStatus:  state.payStatus
+    };
+
+    // Send to Google Sheet (fire and forget)
+    fetch(SCRIPT_URL, {
+        method:  'POST',
+        mode:    'no-cors',
+        headers: { 'Content-Type': 'text/plain' },
+        body:    JSON.stringify(payload)
+    }).catch(() => {});
+
+    saveRSVP(); // localStorage backup
     buildConfirmation();
     setStep('Confirm');
 }
@@ -850,7 +870,28 @@ function loadRSVPs() {
 }
 
 function buildConfirmation() {
-    const coming = loadRSVPs().filter(r => r.attendance === 'yes' || r.attendance === 'maybe');
+    document.getElementById('attendeeList').innerHTML =
+        `<p class="empty-note" style="color:var(--soft)">Loading...</p>`;
+    document.getElementById('inviteLinkInput').value = window.location.href.split('#')[0];
+
+    fetch(SCRIPT_URL)
+        .then(r => r.json())
+        .then(fetched => {
+            // Always include the person who just submitted
+            const seen = fetched.map(r => r.name.toLowerCase());
+            if (!seen.includes(state.name.toLowerCase()) && state.attendance !== 'no') {
+                fetched.push({ name: state.name, attendance: state.attendance });
+            }
+            renderAttendees(fetched.filter(r => r.attendance === 'yes' || r.attendance === 'maybe'));
+        })
+        .catch(() => {
+            // Fallback to localStorage if fetch fails
+            const coming = loadRSVPs().filter(r => r.attendance === 'yes' || r.attendance === 'maybe');
+            renderAttendees(coming);
+        });
+}
+
+function renderAttendees(coming) {
     document.getElementById('attendeeList').innerHTML = coming.length === 0
         ? `<p class="empty-note">Be the first — spread the word.</p>`
         : coming.map(r => `
@@ -860,8 +901,6 @@ function buildConfirmation() {
                 <span class="attendee-badge">${r.attendance === 'maybe' ? 'maybe' : 'coming'}</span>
             </div>
         `).join('');
-
-    document.getElementById('inviteLinkInput').value = window.location.href.split('#')[0];
 }
 
 function copyLink() {
