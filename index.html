@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Café Pop-Up · RSVP</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@300;400&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@300;400&family=Space+Mono&display=swap" rel="stylesheet">
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -13,7 +13,6 @@
             --ink: #1a1a1a;
             --soft: #767676;
             --line: #e5e5e5;
-            --accent: #1a1a1a;
             --accent-soft: #f5f5f5;
         }
 
@@ -29,7 +28,7 @@
         .hero {
             max-width: 480px;
             margin: 0 auto;
-            padding: 80px 32px 64px;
+            padding: 64px 32px 56px;
         }
 
         .hero-eyebrow {
@@ -37,7 +36,44 @@
             letter-spacing: 4px;
             text-transform: uppercase;
             color: var(--soft);
-            margin-bottom: 24px;
+            margin-bottom: 28px;
+        }
+
+        /* ── COUNTDOWN ── */
+        .countdown {
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
+            margin-bottom: 36px;
+        }
+
+        .cd-unit { text-align: center; }
+
+        .cd-num {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 300;
+            font-size: 42px;
+            color: var(--ink);
+            line-height: 1;
+            display: block;
+            min-width: 56px;
+        }
+
+        .cd-label {
+            font-size: 9px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--soft);
+            margin-top: 5px;
+            display: block;
+        }
+
+        .cd-sep {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 32px;
+            color: var(--line);
+            line-height: 1.1;
+            padding: 0 2px;
         }
 
         .hero h1 {
@@ -49,14 +85,12 @@
             margin-bottom: 32px;
         }
 
-        .hero h1 em {
-            font-style: italic;
-        }
+        .hero h1 em { font-style: italic; }
 
         .event-meta {
             border-top: 1px solid var(--line);
             padding-top: 24px;
-            margin-bottom: 40px;
+            margin-bottom: 32px;
         }
 
         .meta-row {
@@ -65,14 +99,13 @@
             align-items: baseline;
             padding: 10px 0;
             border-bottom: 1px solid var(--line);
-            font-size: 13px;
         }
 
         .meta-label {
-            color: var(--soft);
-            letter-spacing: 1px;
             font-size: 10px;
+            letter-spacing: 1px;
             text-transform: uppercase;
+            color: var(--soft);
         }
 
         .meta-value {
@@ -86,7 +119,35 @@
             font-size: 17px;
             color: var(--soft);
             line-height: 1.6;
-            margin-bottom: 40px;
+            margin-bottom: 32px;
+        }
+
+        /* ── EDIT BANNER ── */
+        .edit-banner {
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid var(--line);
+            padding: 14px 18px;
+            margin-bottom: 24px;
+            font-size: 13px;
+            color: var(--soft);
+        }
+
+        .edit-banner strong { color: var(--ink); }
+
+        .btn-edit-link {
+            background: none;
+            border: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--ink);
+            cursor: pointer;
+            padding: 0;
+            text-decoration: underline;
+            text-underline-offset: 3px;
         }
 
         /* ── BUTTONS ── */
@@ -105,7 +166,7 @@
             transition: opacity 0.2s;
         }
 
-        .btn-primary:hover { opacity: 0.75; }
+        .btn-primary:hover { opacity: 0.7; }
 
         .btn-next {
             flex: 1;
@@ -122,7 +183,7 @@
             transition: opacity 0.2s;
         }
 
-        .btn-next:hover { opacity: 0.75; }
+        .btn-next:hover { opacity: 0.7; }
 
         .btn-back {
             padding: 14px 20px;
@@ -160,8 +221,7 @@
             transition: background 0.3s;
         }
 
-        .progress-seg.done   { background: var(--ink); }
-        .progress-seg.active { background: var(--ink); }
+        .progress-seg.done { background: var(--ink); }
 
         .step { display: none; animation: fadeUp 0.3s ease; }
         .step.active { display: block; }
@@ -249,7 +309,6 @@
         }
 
         .menu-item:first-child { border-top: 1px solid var(--line); }
-
         .menu-info { flex: 1; }
 
         .menu-name {
@@ -262,7 +321,6 @@
             font-size: 11px;
             color: var(--soft);
             margin-top: 2px;
-            letter-spacing: 0.3px;
         }
 
         .menu-price {
@@ -314,7 +372,6 @@
             display: flex;
             justify-content: space-between;
             padding: 16px 0 0;
-            margin-top: 4px;
         }
 
         .summary-total .tot-label {
@@ -333,8 +390,8 @@
         /* ── PAYMENT ── */
         .payment-block {
             border-top: 1px solid var(--line);
-            padding: 24px 0 0;
-            margin: 24px 0 0;
+            padding-top: 24px;
+            margin-top: 24px;
         }
 
         .pay-instruction {
@@ -356,6 +413,7 @@
             font-size: 12px;
             color: var(--soft);
             margin-bottom: 24px;
+            line-height: 1.5;
         }
 
         .pay-status-grid { display: flex; gap: 8px; }
@@ -382,6 +440,78 @@
         /* ── NAV ── */
         .nav-btns { display: flex; gap: 8px; margin-top: 32px; }
 
+        /* ── RECEIPT ── */
+        .receipt {
+            font-family: 'Space Mono', monospace;
+            font-size: 11px;
+            line-height: 1.7;
+            border: 1px dashed var(--line);
+            padding: 24px 22px 20px;
+            margin-bottom: 36px;
+            color: var(--ink);
+        }
+
+        .receipt-header {
+            text-align: center;
+            margin-bottom: 14px;
+        }
+
+        .receipt-title {
+            font-size: 12px;
+            letter-spacing: 3px;
+        }
+
+        .receipt-sub {
+            font-size: 10px;
+            color: var(--soft);
+            margin-top: 3px;
+        }
+
+        .receipt-divider {
+            color: var(--line);
+            margin: 10px 0;
+            font-size: 10px;
+            letter-spacing: 1px;
+            overflow: hidden;
+        }
+
+        .receipt-kv {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            gap: 6px;
+        }
+
+        .receipt-kv .dots {
+            flex: 1;
+            border-bottom: 1px dotted var(--line);
+            height: 0.75em;
+        }
+
+        .receipt-total {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            padding-top: 2px;
+        }
+
+        .receipt-footer {
+            text-align: center;
+            color: var(--soft);
+            margin-top: 14px;
+            font-size: 10px;
+        }
+
+        .receipt-screenshot-hint {
+            text-align: center;
+            font-size: 9px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--line);
+            margin-top: 20px;
+            margin-bottom: 8px;
+        }
+
         /* ── CONFIRM ── */
         .confirm-section { padding-bottom: 40px; }
 
@@ -398,7 +528,7 @@
         .confirm-sub {
             font-size: 13px;
             color: var(--soft);
-            margin-bottom: 40px;
+            margin-bottom: 36px;
             line-height: 1.6;
         }
 
@@ -422,11 +552,7 @@
             flex-shrink: 0;
         }
 
-        .attendee-name {
-            font-size: 14px;
-            color: var(--ink);
-            flex: 1;
-        }
+        .attendee-name { font-size: 14px; color: var(--ink); flex: 1; }
 
         .attendee-badge {
             font-size: 9px;
@@ -435,11 +561,8 @@
             color: var(--soft);
         }
 
-        /* ── INVITE ── */
-        .invite-block {
-            border-top: 1px solid var(--line);
-            padding-top: 32px;
-        }
+        /* ── SHARE / INVITE ── */
+        .invite-block { border-top: 1px solid var(--line); padding-top: 32px; }
 
         .invite-label {
             font-size: 10px;
@@ -449,27 +572,16 @@
             margin-bottom: 16px;
         }
 
-        .invite-row {
+        .share-grid {
             display: flex;
             gap: 8px;
-            margin-bottom: 10px;
         }
 
-        .invite-input {
+        .btn-share {
             flex: 1;
-            padding: 10px 0;
-            border: none;
-            border-bottom: 1px solid var(--line);
-            background: none;
-            font-size: 12px;
-            color: var(--soft);
-            outline: none;
-        }
-
-        .btn-copy {
-            background: none;
+            padding: 12px 6px;
             border: 1px solid var(--line);
-            padding: 10px 16px;
+            background: none;
             font-family: 'Inter', sans-serif;
             font-size: 9px;
             font-weight: 400;
@@ -477,17 +589,20 @@
             text-transform: uppercase;
             color: var(--soft);
             cursor: pointer;
-            transition: all 0.2s;
-            white-space: nowrap;
+            transition: all 0.15s;
+            text-align: center;
+            text-decoration: none;
+            display: block;
         }
 
-        .btn-copy:hover { border-color: var(--ink); color: var(--ink); }
+        .btn-share:hover { border-color: var(--ink); color: var(--ink); }
 
         .copy-msg {
             font-size: 10px;
             letter-spacing: 1px;
             color: var(--soft);
             display: none;
+            margin-top: 10px;
         }
 
         /* ── NOT COMING ── */
@@ -511,16 +626,11 @@
         footer {
             max-width: 480px;
             margin: 0 auto;
-            padding: 0 32px 48px;
+            padding: 24px 32px 48px;
             border-top: 1px solid var(--line);
-            padding-top: 24px;
         }
 
-        .footer-text {
-            font-size: 11px;
-            color: var(--soft);
-            letter-spacing: 0.5px;
-        }
+        .footer-text { font-size: 11px; color: var(--soft); }
 
         .empty-note {
             font-family: 'Cormorant Garamond', serif;
@@ -531,9 +641,10 @@
         }
 
         @media (max-width: 480px) {
-            .hero, .form-container { padding-left: 24px; padding-right: 24px; }
+            .hero, .form-container, footer { padding-left: 24px; padding-right: 24px; }
             .attend-grid { flex-direction: column; }
-            footer { padding-left: 24px; padding-right: 24px; }
+            .share-grid { flex-direction: column; }
+            .cd-num { font-size: 34px; min-width: 44px; }
         }
     </style>
 </head>
@@ -542,6 +653,29 @@
 <!-- ── HERO ── -->
 <div class="hero" id="heroSection">
     <div class="hero-eyebrow">You're invited</div>
+
+    <div class="countdown" id="countdown">
+        <div class="cd-unit">
+            <span class="cd-num" id="cdDays">--</span>
+            <span class="cd-label">days</span>
+        </div>
+        <span class="cd-sep">·</span>
+        <div class="cd-unit">
+            <span class="cd-num" id="cdHours">--</span>
+            <span class="cd-label">hrs</span>
+        </div>
+        <span class="cd-sep">·</span>
+        <div class="cd-unit">
+            <span class="cd-num" id="cdMins">--</span>
+            <span class="cd-label">min</span>
+        </div>
+        <span class="cd-sep">·</span>
+        <div class="cd-unit">
+            <span class="cd-num" id="cdSecs">--</span>
+            <span class="cd-label">sec</span>
+        </div>
+    </div>
+
     <h1>Café<br><em>Pop-Up</em></h1>
 
     <div class="event-meta">
@@ -561,6 +695,11 @@
 
     <p class="hero-note">Coffee, matcha, fresh pastries —<br>and even better company.</p>
 
+    <div class="edit-banner" id="editBanner">
+        <span>Welcome back, <strong id="editName"></strong></span>
+        <button class="btn-edit-link" onclick="startEditRSVP()">Edit your RSVP →</button>
+    </div>
+
     <button class="btn-primary" onclick="startRSVP()">RSVP</button>
 </div>
 
@@ -568,14 +707,14 @@
 <div class="form-container" id="formContainer" style="display:none;">
 
     <div class="progress-bar" id="progressBar">
-        <div class="progress-seg active" id="seg-1"></div>
+        <div class="progress-seg" id="seg-1"></div>
         <div class="progress-seg" id="seg-2"></div>
         <div class="progress-seg" id="seg-3"></div>
         <div class="progress-seg" id="seg-4"></div>
     </div>
 
     <!-- STEP 1 -->
-    <div class="step active" id="step1">
+    <div class="step" id="step1">
         <div class="step-eyebrow">1 of 4</div>
         <h2 class="step-title">Will you be there?</h2>
 
@@ -587,9 +726,9 @@
         <div class="form-group" style="margin-bottom:0;">
             <label class="field-label">Attendance</label>
             <div class="attend-grid">
-                <button class="attend-btn" onclick="selectAttend('yes',this)">Yes</button>
-                <button class="attend-btn" onclick="selectAttend('maybe',this)">Maybe</button>
-                <button class="attend-btn" onclick="selectAttend('no',this)">No</button>
+                <button class="attend-btn" data-val="yes"   onclick="selectAttend('yes',this)">Yes</button>
+                <button class="attend-btn" data-val="maybe" onclick="selectAttend('maybe',this)">Maybe</button>
+                <button class="attend-btn" data-val="no"    onclick="selectAttend('no',this)">No</button>
             </div>
         </div>
 
@@ -683,14 +822,21 @@
         <p class="confirm-title">À bientôt</p>
         <p class="confirm-sub">You're on the list. See you Friday morning.</p>
 
+        <!-- Receipt -->
+        <p class="receipt-screenshot-hint">Your order — screenshot to save</p>
+        <div class="receipt" id="receipt"></div>
+
+        <!-- Who's coming -->
         <div class="step-eyebrow" style="margin-bottom:0;">Who's coming</div>
         <div class="attendee-list" id="attendeeList"></div>
 
+        <!-- Share -->
         <div class="invite-block">
             <div class="invite-label">Invite friends</div>
-            <div class="invite-row">
-                <input class="invite-input" type="text" id="inviteLinkInput" readonly />
-                <button class="btn-copy" onclick="copyLink()">Copy link</button>
+            <div class="share-grid">
+                <button class="btn-share" id="smsBtn" onclick="shareSMS()">Message</button>
+                <button class="btn-share" id="waBtn" onclick="shareWhatsApp()">WhatsApp</button>
+                <button class="btn-share" onclick="copyLink()">Copy link</button>
             </div>
             <div class="copy-msg" id="copyMsg">Copied ✓</div>
         </div>
@@ -703,10 +849,17 @@
 </footer>
 
 <script>
-const VENMO_HANDLE  = '@YOUR_USERNAME';
-const ZELLE_HANDLE  = 'your@email.com';
-const SCRIPT_URL    = 'https://script.google.com/macros/s/AKfycbxAwuVrigLRYNIx9e77txfM6-Dhv6vgJtkkq5afrudz9jf46UcIaE1c8a0C7Q-Bb_vVQg/exec';
+// ═══════════════════════════════════
+//  CONFIG
+// ═══════════════════════════════════
+const VENMO_HANDLE = '@YOUR_USERNAME';
+const ZELLE_HANDLE = 'your@email.com';
+const SCRIPT_URL   = 'https://script.google.com/macros/s/AKfycbxAwuVrigLRYNIx9e77txfM6-Dhv6vgJtkkq5afrudz9jf46UcIaE1c8a0C7Q-Bb_vVQg/exec';
+const EVENT_DATE   = new Date('2026-03-27T09:30:00');
 
+// ═══════════════════════════════════
+//  PASTRY MENU
+// ═══════════════════════════════════
 const PASTRIES = [
     { id: 'croissant',  name: 'Croissant',        desc: 'Buttery, flaky, classic' },
     { id: 'pain_choc',  name: 'Pain au Chocolat', desc: 'Dark chocolate in pastry' },
@@ -715,14 +868,97 @@ const PASTRIES = [
     { id: 'fruit_tart', name: 'Mini Fruit Tart',   desc: 'Seasonal fruit, pastry cream' },
 ];
 
+// ═══════════════════════════════════
+//  STATE
+// ═══════════════════════════════════
 const state = { name:'', attendance:'', coffee:0, matcha:0, pastries:{}, payStatus:'' };
 PASTRIES.forEach(p => state.pastries[p.id] = 0);
 
-function startRSVP() {
+// ═══════════════════════════════════
+//  COUNTDOWN
+// ═══════════════════════════════════
+function initCountdown() {
+    function tick() {
+        const diff = EVENT_DATE - new Date();
+        if (diff <= 0) {
+            document.getElementById('countdown').innerHTML =
+                '<span style="font-family:Cormorant Garamond,serif;font-style:italic;font-size:20px;color:var(--soft)">Today is the day!</span>';
+            return;
+        }
+        const d = Math.floor(diff / 86400000);
+        const h = Math.floor((diff % 86400000) / 3600000);
+        const m = Math.floor((diff % 3600000) / 60000);
+        const s = Math.floor((diff % 60000) / 1000);
+        document.getElementById('cdDays').textContent  = String(d).padStart(2,'0');
+        document.getElementById('cdHours').textContent = String(h).padStart(2,'0');
+        document.getElementById('cdMins').textContent  = String(m).padStart(2,'0');
+        document.getElementById('cdSecs').textContent  = String(s).padStart(2,'0');
+    }
+    tick();
+    setInterval(tick, 1000);
+}
+
+// ═══════════════════════════════════
+//  RETURNING USER
+// ═══════════════════════════════════
+function checkReturning() {
+    const saved = loadMyOrder();
+    if (!saved) return;
+    document.getElementById('editBanner').style.display = 'flex';
+    document.getElementById('editName').textContent = saved.name;
+}
+
+function startEditRSVP() {
+    const saved = loadMyOrder();
+    if (!saved) return;
+    Object.assign(state, { ...saved, pastries: { ...saved.pastries } });
+    startRSVP(true);
+}
+
+function loadMyOrder() {
+    try { return JSON.parse(localStorage.getItem('lepetitcafe_myorder')); }
+    catch { return null; }
+}
+
+function saveMyOrder() {
+    localStorage.setItem('lepetitcafe_myorder', JSON.stringify({
+        name: state.name, attendance: state.attendance,
+        coffee: state.coffee, matcha: state.matcha,
+        pastries: { ...state.pastries }, payStatus: state.payStatus
+    }));
+}
+
+// ═══════════════════════════════════
+//  INIT
+// ═══════════════════════════════════
+function startRSVP(editMode = false) {
     document.getElementById('heroSection').style.display = 'none';
     document.getElementById('formContainer').style.display = 'block';
     buildPastryList();
     setStep(1);
+    if (editMode) prefillForm();
+}
+
+function prefillForm() {
+    document.getElementById('nameInput').value = state.name;
+    document.getElementById('coffeeQty').textContent = state.coffee;
+    document.getElementById('matchaQty').textContent = state.matcha;
+
+    PASTRIES.forEach(p => {
+        const el = document.getElementById(p.id + 'Qty');
+        if (el) el.textContent = state.pastries[p.id] || 0;
+    });
+
+    document.querySelectorAll('.attend-btn').forEach(b => {
+        if (b.dataset.val === state.attendance) b.classList.add('sel-' + state.attendance);
+    });
+
+    if (state.payStatus) {
+        document.querySelectorAll('.pay-status-btn').forEach(b => {
+            const val = b.getAttribute('onclick').includes('paid') ? 'paid' : 'cash';
+            if (val === state.payStatus) b.classList.add('selected');
+        });
+    }
 }
 
 function buildPastryList() {
@@ -742,6 +978,9 @@ function buildPastryList() {
     `).join('');
 }
 
+// ═══════════════════════════════════
+//  STEP CONTROL
+// ═══════════════════════════════════
 function setStep(id) {
     document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
     document.getElementById('step' + id).classList.add('active');
@@ -752,8 +991,8 @@ function setStep(id) {
 
     if (!special) {
         [1,2,3,4].forEach(n => {
-            const seg = document.getElementById('seg-' + n);
-            seg.className = 'progress-seg' + (n <= id ? ' done' : '');
+            document.getElementById('seg-' + n).className =
+                'progress-seg' + (n <= id ? ' done' : '');
         });
     }
 }
@@ -775,12 +1014,15 @@ function nextStep(from) {
 }
 
 function goBack(from) {
-    if (from === 2) setStep(1);
-    else if (from === 3) setStep(2);
-    else if (from === 4) setStep(3);
+    if      (from === 2)    setStep(1);
+    else if (from === 3)    setStep(2);
+    else if (from === 4)    setStep(3);
     else if (from === 'No') setStep(1);
 }
 
+// ═══════════════════════════════════
+//  INTERACTIONS
+// ═══════════════════════════════════
 function selectAttend(val, btn) {
     state.attendance = val;
     document.querySelectorAll('.attend-btn').forEach(b => b.className = 'attend-btn');
@@ -803,6 +1045,9 @@ function selectPayStatus(val, btn) {
     btn.classList.add('selected');
 }
 
+// ═══════════════════════════════════
+//  SUMMARY
+// ═══════════════════════════════════
 function calcTotal() {
     let t = state.coffee * 2 + state.matcha * 2;
     PASTRIES.forEach(p => { t += state.pastries[p.id]; });
@@ -812,7 +1057,6 @@ function calcTotal() {
 function buildSummary() {
     const total = calcTotal();
     let rows = '';
-
     if (state.coffee > 0) rows += summaryRow('Coffee', state.coffee, state.coffee * 2);
     if (state.matcha > 0) rows += summaryRow('Matcha', state.matcha, state.matcha * 2);
     PASTRIES.forEach(p => {
@@ -832,32 +1076,34 @@ function summaryRow(label, qty, cost) {
     return `<div class="summary-row"><span class="lbl">${label} × ${qty}</span><span>$${cost}</span></div>`;
 }
 
+// ═══════════════════════════════════
+//  SUBMIT
+// ═══════════════════════════════════
 function submitRSVP() {
     if (!state.payStatus) return;
 
     const payload = {
-        name:       state.name,
-        attendance: state.attendance,
-        coffee:     state.coffee,
-        matcha:     state.matcha,
-        pastries:   state.pastries,
-        total:      calcTotal(),
-        payStatus:  state.payStatus
+        name: state.name, attendance: state.attendance,
+        coffee: state.coffee, matcha: state.matcha,
+        pastries: state.pastries, total: calcTotal(),
+        payStatus: state.payStatus
     };
 
-    // Send to Google Sheet (fire and forget)
     fetch(SCRIPT_URL, {
-        method:  'POST',
-        mode:    'no-cors',
+        method: 'POST', mode: 'no-cors',
         headers: { 'Content-Type': 'text/plain' },
-        body:    JSON.stringify(payload)
+        body: JSON.stringify(payload)
     }).catch(() => {});
 
-    saveRSVP(); // localStorage backup
+    saveRSVP();
+    saveMyOrder();
     buildConfirmation();
     setStep('Confirm');
 }
 
+// ═══════════════════════════════════
+//  LOCAL STORAGE
+// ═══════════════════════════════════
 function saveRSVP() {
     const all = loadRSVPs().filter(r => r.name.toLowerCase() !== state.name.toLowerCase());
     all.push({ name: state.name, attendance: state.attendance, ts: Date.now() });
@@ -869,15 +1115,70 @@ function loadRSVPs() {
     catch { return []; }
 }
 
+// ═══════════════════════════════════
+//  RECEIPT
+// ═══════════════════════════════════
+function buildReceipt() {
+    const total = calcTotal();
+    let items = '';
+
+    if (state.coffee > 0) items += receiptRow('Coffee × ' + state.coffee, '$' + (state.coffee * 2));
+    if (state.matcha > 0) items += receiptRow('Matcha × ' + state.matcha, '$' + (state.matcha * 2));
+    PASTRIES.forEach(p => {
+        const q = state.pastries[p.id];
+        if (q > 0) items += receiptRow(p.name + ' × ' + q, '$' + q);
+    });
+
+    if (!items) items = `<div style="color:var(--soft);font-size:10px;text-align:center;padding:4px 0;">just the vibes</div>`;
+
+    const payText = state.payStatus === 'paid' ? 'Sent ✓' : 'Cash on arrival';
+
+    document.getElementById('receipt').innerHTML = `
+        <div class="receipt-header">
+            <div class="receipt-title">CAFÉ POP-UP</div>
+            <div class="receipt-sub">Friday, March 27 · 9:30am</div>
+        </div>
+        <div class="receipt-divider">· · · · · · · · · · · · · · · · · · · ·</div>
+        <div class="receipt-kv" style="margin-bottom:8px;">
+            <span>GUEST</span>
+            <span>${esc(state.name).toUpperCase()}</span>
+        </div>
+        <div class="receipt-divider">· · · · · · · · · · · · · · · · · · · ·</div>
+        ${items}
+        <div class="receipt-divider">· · · · · · · · · · · · · · · · · · · ·</div>
+        <div class="receipt-total">
+            <span>TOTAL</span>
+            <span>$${total}</span>
+        </div>
+        <div class="receipt-kv" style="margin-top:4px;font-size:10px;color:var(--soft);">
+            <span>PAYMENT</span>
+            <span>${payText}</span>
+        </div>
+        <div class="receipt-divider" style="margin-top:10px;">· · · · · · · · · · · · · · · · · · · ·</div>
+        <div class="receipt-footer">see you friday ✿</div>
+    `;
+}
+
+function receiptRow(label, price) {
+    return `<div class="receipt-kv" style="margin-bottom:3px;">
+        <span>${label}</span>
+        <div class="dots"></div>
+        <span>${price}</span>
+    </div>`;
+}
+
+// ═══════════════════════════════════
+//  CONFIRMATION
+// ═══════════════════════════════════
 function buildConfirmation() {
+    buildReceipt();
+
     document.getElementById('attendeeList').innerHTML =
-        `<p class="empty-note" style="color:var(--soft)">Loading...</p>`;
-    document.getElementById('inviteLinkInput').value = window.location.href.split('#')[0];
+        `<p class="empty-note" style="color:var(--line);">Loading...</p>`;
 
     fetch(SCRIPT_URL)
         .then(r => r.json())
         .then(fetched => {
-            // Always include the person who just submitted
             const seen = fetched.map(r => r.name.toLowerCase());
             if (!seen.includes(state.name.toLowerCase()) && state.attendance !== 'no') {
                 fetched.push({ name: state.name, attendance: state.attendance });
@@ -885,10 +1186,15 @@ function buildConfirmation() {
             renderAttendees(fetched.filter(r => r.attendance === 'yes' || r.attendance === 'maybe'));
         })
         .catch(() => {
-            // Fallback to localStorage if fetch fails
             const coming = loadRSVPs().filter(r => r.attendance === 'yes' || r.attendance === 'maybe');
             renderAttendees(coming);
         });
+
+    const url = window.location.href.split('#')[0];
+    const msg = `Hey! Come join us for a French café pop-up this Friday, March 27 (9:30–11:30am) — coffee, matcha & fresh pastries 🥐 RSVP here: ${url}`;
+    document.getElementById('smsBtn').dataset.msg = msg;
+    document.getElementById('waBtn').dataset.msg  = msg;
+    document.getElementById('smsBtn').dataset.url = url;
 }
 
 function renderAttendees(coming) {
@@ -903,19 +1209,43 @@ function renderAttendees(coming) {
         `).join('');
 }
 
-function copyLink() {
-    const val = document.getElementById('inviteLinkInput').value;
-    const msg = document.getElementById('copyMsg');
-    navigator.clipboard.writeText(val).then(show).catch(() => {
-        document.getElementById('inviteLinkInput').select();
-        document.execCommand('copy'); show();
-    });
-    function show() { msg.style.display='block'; setTimeout(()=>msg.style.display='none', 2000); }
+// ═══════════════════════════════════
+//  SHARE
+// ═══════════════════════════════════
+function shareSMS() {
+    const msg = document.getElementById('smsBtn').dataset.msg || '';
+    window.location.href = `sms:&body=${encodeURIComponent(msg)}`;
 }
 
-function esc(s) {
-    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+function shareWhatsApp() {
+    const msg = document.getElementById('waBtn').dataset.msg || '';
+    window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
 }
+
+function copyLink() {
+    const url = document.getElementById('smsBtn').dataset.url || window.location.href;
+    const msg = document.getElementById('copyMsg');
+    navigator.clipboard.writeText(url).then(show).catch(() => {
+        const ta = document.createElement('textarea');
+        ta.value = url; document.body.appendChild(ta);
+        ta.select(); document.execCommand('copy');
+        document.body.removeChild(ta); show();
+    });
+    function show() { msg.style.display='block'; setTimeout(()=>msg.style.display='none',2000); }
+}
+
+// ═══════════════════════════════════
+//  UTILS
+// ═══════════════════════════════════
+function esc(s) {
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ═══════════════════════════════════
+//  BOOT
+// ═══════════════════════════════════
+initCountdown();
+checkReturning();
 </script>
 </body>
 </html>
