@@ -440,77 +440,18 @@
         /* ── NAV ── */
         .nav-btns { display: flex; gap: 8px; margin-top: 32px; }
 
-        /* ── RECEIPT ── */
-        .receipt {
-            font-family: 'Space Mono', monospace;
-            font-size: 11px;
-            line-height: 1.7;
-            border: 1px dashed var(--line);
-            padding: 24px 22px 20px;
+        /* ── CONFIRM PAYMENT NOTE ── */
+        .confirm-payment {
+            border-top: 1px solid var(--line);
+            border-bottom: 1px solid var(--line);
+            padding: 20px 0;
             margin-bottom: 36px;
-            color: var(--ink);
-        }
-
-        .receipt-header {
-            text-align: center;
-            margin-bottom: 14px;
-        }
-
-        .receipt-title {
-            font-size: 12px;
-            letter-spacing: 3px;
-        }
-
-        .receipt-sub {
-            font-size: 10px;
+            font-size: 13px;
             color: var(--soft);
-            margin-top: 3px;
+            line-height: 1.6;
         }
 
-        .receipt-divider {
-            color: var(--line);
-            margin: 10px 0;
-            font-size: 10px;
-            letter-spacing: 1px;
-            overflow: hidden;
-        }
-
-        .receipt-kv {
-            display: flex;
-            justify-content: space-between;
-            align-items: baseline;
-            gap: 6px;
-        }
-
-        .receipt-kv .dots {
-            flex: 1;
-            border-bottom: 1px dotted var(--line);
-            height: 0.75em;
-        }
-
-        .receipt-total {
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
-            padding-top: 2px;
-        }
-
-        .receipt-footer {
-            text-align: center;
-            color: var(--soft);
-            margin-top: 14px;
-            font-size: 10px;
-        }
-
-        .receipt-screenshot-hint {
-            text-align: center;
-            font-size: 9px;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            color: var(--line);
-            margin-top: 20px;
-            margin-bottom: 8px;
-        }
+        .confirm-payment strong { color: var(--ink); }
 
         /* ── CONFIRM ── */
         .confirm-section { padding-bottom: 40px; }
@@ -747,7 +688,6 @@
                 <div class="menu-name">Coffee</div>
                 <div class="menu-desc">Rich, smooth drip coffee</div>
             </div>
-            <span class="menu-price">$2</span>
             <div class="qty-ctrl">
                 <button class="qty-btn" onclick="changeQty('coffee',-1)">−</button>
                 <span class="qty-num" id="coffeeQty">0</span>
@@ -760,7 +700,6 @@
                 <div class="menu-name">Matcha</div>
                 <div class="menu-desc">Ceremonial grade, lightly sweetened</div>
             </div>
-            <span class="menu-price">$2</span>
             <div class="qty-ctrl">
                 <button class="qty-btn" onclick="changeQty('matcha',-1)">−</button>
                 <span class="qty-num" id="matchaQty">0</span>
@@ -822,9 +761,8 @@
         <p class="confirm-title">À bientôt</p>
         <p class="confirm-sub">You're on the list. See you Friday morning.</p>
 
-        <!-- Receipt -->
-        <p class="receipt-screenshot-hint">Your order — screenshot to save</p>
-        <div class="receipt" id="receipt"></div>
+        <!-- Payment reminder -->
+        <div class="confirm-payment" id="confirmPayment"></div>
 
         <!-- Who's coming -->
         <div class="step-eyebrow" style="margin-bottom:0;">Who's coming</div>
@@ -967,7 +905,6 @@ function buildPastryList() {
                 <div class="menu-name">${p.name}</div>
                 <div class="menu-desc">${p.desc}</div>
             </div>
-            <span class="menu-price">$1</span>
             <div class="qty-ctrl">
                 <button class="qty-btn" onclick="changeQty('${p.id}',-1)">−</button>
                 <span class="qty-num" id="${p.id}Qty">0</span>
@@ -1067,8 +1004,7 @@ function buildSummary() {
         ? `${rows}<div class="summary-total"><span class="tot-label">Total</span><span class="tot-amount">$${total}</span></div>`
         : `<p class="empty-note">No drinks or pastries — just vibes.</p>`;
 
-    document.getElementById('payAmountLine').textContent =
-        total > 0 ? `$${total} — ${VENMO_HANDLE} (Venmo) or ${ZELLE_HANDLE} (Zelle)` : '';
+    document.getElementById('payAmountLine').textContent = '';
 }
 
 function summaryRow(label, qty, cost) {
@@ -1109,62 +1045,22 @@ function loadRSVPs() {
 }
 
 // ═══════════════════════════════════
-//  RECEIPT
+//  PAYMENT NOTE
 // ═══════════════════════════════════
-function buildReceipt() {
-    const total = calcTotal();
-    let items = '';
-
-    if (state.coffee > 0) items += receiptRow('Coffee × ' + state.coffee, '$' + (state.coffee * 2));
-    if (state.matcha > 0) items += receiptRow('Matcha × ' + state.matcha, '$' + (state.matcha * 2));
-    PASTRIES.forEach(p => {
-        const q = state.pastries[p.id];
-        if (q > 0) items += receiptRow(p.name + ' × ' + q, '$' + q);
-    });
-
-    if (!items) items = `<div style="color:var(--soft);font-size:10px;text-align:center;padding:4px 0;">just the vibes</div>`;
-
-    const payText = state.payStatus === 'paid' ? 'Sent ✓' : 'Cash on arrival';
-
-    document.getElementById('receipt').innerHTML = `
-        <div class="receipt-header">
-            <div class="receipt-title">CAFÉ POP-UP</div>
-            <div class="receipt-sub">Friday, March 27 · 9:30am</div>
-        </div>
-        <div class="receipt-divider">· · · · · · · · · · · · · · · · · · · ·</div>
-        <div class="receipt-kv" style="margin-bottom:8px;">
-            <span>GUEST</span>
-            <span>${esc(state.name).toUpperCase()}</span>
-        </div>
-        <div class="receipt-divider">· · · · · · · · · · · · · · · · · · · ·</div>
-        ${items}
-        <div class="receipt-divider">· · · · · · · · · · · · · · · · · · · ·</div>
-        <div class="receipt-total">
-            <span>TOTAL</span>
-            <span>$${total}</span>
-        </div>
-        <div class="receipt-kv" style="margin-top:4px;font-size:10px;color:var(--soft);">
-            <span>PAYMENT</span>
-            <span>${payText}</span>
-        </div>
-        <div class="receipt-divider" style="margin-top:10px;">· · · · · · · · · · · · · · · · · · · ·</div>
-        <div class="receipt-footer">see you friday ✿</div>
-    `;
-}
-
-function receiptRow(label, price) {
-    return `<div class="receipt-kv" style="margin-bottom:3px;">
-        <span>${label}</span>
-        <div class="dots"></div>
-        <span>${price}</span>
-    </div>`;
+function buildPaymentNote() {
+    const el = document.getElementById('confirmPayment');
+    if (state.payStatus === 'paid') {
+        el.innerHTML = `Thanks for sending payment — you're all set! See you Friday.`;
+    } else {
+        el.innerHTML = `Please Venmo or Zelle <strong>${VENMO_HANDLE}</strong> before the event. See you Friday!`;
+    }
 }
 
 // ═══════════════════════════════════
 //  CONFIRMATION
 // ═══════════════════════════════════
 function buildConfirmation(payload) {
-    buildReceipt();
+    buildPaymentNote();
 
     document.getElementById('attendeeList').innerHTML =
         `<p class="empty-note" style="color:var(--line);">Loading...</p>`;
