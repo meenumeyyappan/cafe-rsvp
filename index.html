@@ -1088,15 +1088,9 @@ function submitRSVP() {
         payStatus: state.payStatus
     };
 
-    fetch(SCRIPT_URL, {
-        method: 'POST', mode: 'no-cors',
-        headers: { 'Content-Type': 'text/plain' },
-        body: JSON.stringify(payload)
-    }).catch(() => {});
-
     saveRSVP();
     saveMyOrder();
-    buildConfirmation();
+    buildConfirmation(payload);
     setStep('Confirm');
 }
 
@@ -1169,13 +1163,15 @@ function receiptRow(label, price) {
 // ═══════════════════════════════════
 //  CONFIRMATION
 // ═══════════════════════════════════
-function buildConfirmation() {
+function buildConfirmation(payload) {
     buildReceipt();
 
     document.getElementById('attendeeList').innerHTML =
         `<p class="empty-note" style="color:var(--line);">Loading...</p>`;
 
-    fetch(SCRIPT_URL)
+    // Single GET request: saves RSVP to sheet + returns updated attendee list
+    const url = `${SCRIPT_URL}?action=submit&data=${encodeURIComponent(JSON.stringify(payload))}`;
+    fetch(url)
         .then(r => r.json())
         .then(fetched => {
             const seen = fetched.map(r => r.name.toLowerCase());
@@ -1189,10 +1185,10 @@ function buildConfirmation() {
             renderAttendees(coming);
         });
 
-    const url = window.location.href.split('#')[0];
-    const msg = `Hey! Come join us for a French café pop-up this Friday, March 27 (9:30–11:30am) — coffee, matcha & fresh pastries 🥐 RSVP here: ${url}`;
+    const pageUrl = window.location.href.split('#')[0];
+    const msg = `Hey! Come join us for a French café pop-up this Friday, March 27 (9:30–11:30am) — coffee, matcha & fresh pastries 🥐 RSVP here: ${pageUrl}`;
     document.getElementById('smsBtn').dataset.msg = msg;
-    document.getElementById('smsBtn').dataset.url = url;
+    document.getElementById('smsBtn').dataset.url = pageUrl;
 }
 
 function renderAttendees(coming) {
