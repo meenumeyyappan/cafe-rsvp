@@ -835,7 +835,6 @@
             <div class="invite-label">Invite friends</div>
             <div class="share-grid">
                 <button class="btn-share" id="smsBtn" onclick="shareSMS()">Message</button>
-                <button class="btn-share" id="waBtn" onclick="shareWhatsApp()">WhatsApp</button>
                 <button class="btn-share" onclick="copyLink()">Copy link</button>
             </div>
             <div class="copy-msg" id="copyMsg">Copied ✓</div>
@@ -1193,7 +1192,6 @@ function buildConfirmation() {
     const url = window.location.href.split('#')[0];
     const msg = `Hey! Come join us for a French café pop-up this Friday, March 27 (9:30–11:30am) — coffee, matcha & fresh pastries 🥐 RSVP here: ${url}`;
     document.getElementById('smsBtn').dataset.msg = msg;
-    document.getElementById('waBtn').dataset.msg  = msg;
     document.getElementById('smsBtn').dataset.url = url;
 }
 
@@ -1217,10 +1215,6 @@ function shareSMS() {
     window.location.href = `sms:&body=${encodeURIComponent(msg)}`;
 }
 
-function shareWhatsApp() {
-    const msg = document.getElementById('waBtn').dataset.msg || '';
-    window.open(`https://wa.me/?text=${encodeURIComponent(msg)}`, '_blank');
-}
 
 function copyLink() {
     const url = document.getElementById('smsBtn').dataset.url || window.location.href;
